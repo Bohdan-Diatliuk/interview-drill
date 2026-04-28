@@ -1,7 +1,6 @@
 export default function Card() {
     return (
-        <div>
-            <h1>Hello</h1>
+        <div className="w-90 h-40 bg-white borde border-red-100">
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { Header } from "../compontents/Header";
+import { Header } from "../components/Header";
 
 export const TheoryPage = () => {
   return (
