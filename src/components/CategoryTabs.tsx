@@ -1,13 +1,17 @@
-import { CATEGORIES, CATEGORY_LABELS, type Category } from '../data/questions';
+import { CATEGORY_LABELS } from '../data/questions';
 
 interface Props {
-  active: Category;
-  onChange: (cat: Category) => void;
+  categories: string[];
+  active: string;
+  onChange: (cat: string) => void;
   includeAll?: boolean;
 }
 
-export const CategoryTabs = ({ active, onChange, includeAll = true }: Props) => {
-  const tabs: Category[] = includeAll ? ['all', ...CATEGORIES] : [...CATEGORIES];
+export const CategoryTabs = ({ categories, active, onChange, includeAll = true }: Props) => {
+  const tabs = includeAll ? ['all', ...categories] : categories;
+
+  const label = (cat: string) =>
+    CATEGORY_LABELS[cat] ?? cat.charAt(0).toUpperCase() + cat.slice(1);
 
   return (
     <div className="flex flex-wrap gap-2 justify-center">
@@ -21,7 +25,7 @@ export const CategoryTabs = ({ active, onChange, includeAll = true }: Props) => 
               : 'bg-white/10 text-white/60 hover:bg-white/15 hover:text-white'
           }`}
         >
-          {CATEGORY_LABELS[cat]}
+          {label(cat)}
         </button>
       ))}
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { fetchQuestions } from '../api/questions';
 import type { Questions } from '../data/types';
 
@@ -13,5 +13,10 @@ export const useQuestions = () => {
       .catch(() => { setError('Не вдалося завантажити питання'); setLoading(false); });
   }, []);
 
-  return { questions, loading, error };
+  const categories = useMemo(
+    () => [...new Set(questions.map(q => q.category))].sort(),
+    [questions],
+  );
+
+  return { questions, categories, loading, error };
 };

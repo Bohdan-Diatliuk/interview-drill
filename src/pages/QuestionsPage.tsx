@@ -7,22 +7,17 @@ import { FlashCard } from '../components/FlashCard';
 import { QuestionItem } from '../components/QuestionItem';
 import { useProgress } from '../hooks/useProgress';
 import { useQuestions } from '../hooks/useQuestions';
-import { CATEGORIES, type Category } from '../data/questions';
-
 type Mode = 'flashcard' | 'list';
 
 export default function QuestionsPage() {
   const [searchParams] = useSearchParams();
 
-  const [category, setCategory] = useState<Category>(() => {
-    const cat = searchParams.get('category');
-    return cat && (CATEGORIES as readonly string[]).includes(cat) ? (cat as Category) : 'all';
-  });
+  const [category, setCategory] = useState<string>(() => searchParams.get('category') ?? 'all');
   const [difficulty, setDifficulty] = useState<Difficulty>('all');
   const [mode, setMode] = useState<Mode>('flashcard');
   const [index, setIndex] = useState(0);
 
-  const { questions, loading, error } = useQuestions();
+  const { questions, categories, loading, error } = useQuestions();
   const { getStatus, markKnown, markLearning, resetAll, getStats } = useProgress();
 
   const filtered = useMemo(() => {
@@ -35,7 +30,7 @@ export default function QuestionsPage() {
   const current = filtered[currentIndex];
   const stats = getStats(filtered);
 
-  const handleCategoryChange = (cat: Category) => { setCategory(cat); setIndex(0); };
+  const handleCategoryChange = (cat: string) => { setCategory(cat); setIndex(0); };
   const handleDifficultyChange = (d: Difficulty) => { setDifficulty(d); setIndex(0); };
 
   return (
@@ -43,7 +38,7 @@ export default function QuestionsPage() {
       <Header />
       <div className="max-w-3xl mx-auto px-4 pb-12">
         <div className="flex flex-col gap-4 mb-6">
-          <CategoryTabs active={category} onChange={handleCategoryChange} />
+          <CategoryTabs categories={categories} active={category} onChange={handleCategoryChange} />
           <div className="flex flex-wrap gap-3 items-center justify-between">
             <DifficultyFilter active={difficulty} onChange={handleDifficultyChange} />
             <div className="flex items-center gap-3">

@@ -1,8 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { CategoryTabs } from '../components/CategoryTabs';
 import { useQuestions } from '../hooks/useQuestions';
-import type { Category } from '../data/questions';
 
 const DIFFICULTY_STYLES = {
   easy: 'text-green-400 border-green-400/30 bg-green-400/10',
@@ -13,8 +12,12 @@ const DIFFICULTY_STYLES = {
 const DIFFICULTY_LABELS = { easy: 'Легко', medium: 'Середньо', hard: 'Складно' };
 
 export const TheoryPage = () => {
-  const [category, setCategory] = useState<Category>('javascript');
-  const { questions, loading } = useQuestions();
+  const { questions, categories, loading } = useQuestions();
+  const [category, setCategory] = useState<string>('');
+
+  useEffect(() => {
+    if (!category && categories.length) setCategory(categories[0]);
+  }, [categories, category]);
 
   const filtered = useMemo(
     () => questions.filter(q => q.category === category),
@@ -27,8 +30,9 @@ export const TheoryPage = () => {
       <div className="max-w-3xl mx-auto px-4 pb-12">
         <div className="mb-6">
           <CategoryTabs
+            categories={categories}
             active={category}
-            onChange={cat => setCategory(cat === 'all' ? 'javascript' : cat)}
+            onChange={cat => setCategory(cat)}
             includeAll={false}
           />
         </div>

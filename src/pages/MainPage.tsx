@@ -2,10 +2,13 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { useProgress } from '../hooks/useProgress';
 import { useQuestions } from '../hooks/useQuestions';
-import { CATEGORIES, CATEGORY_LABELS } from '../data/questions';
+import { CATEGORY_LABELS } from '../data/questions';
+
+const catLabel = (cat: string) =>
+  CATEGORY_LABELS[cat] ?? cat.charAt(0).toUpperCase() + cat.slice(1);
 
 export default function MainPage() {
-  const { questions } = useQuestions();
+  const { questions, categories } = useQuestions();
   const { getStats } = useProgress();
 
   const overall = getStats(questions);
@@ -38,7 +41,7 @@ export default function MainPage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-          {CATEGORIES.map(cat => {
+          {categories.map(cat => {
             const catQuestions = questions.filter(q => q.category === cat);
             const stats = getStats(catQuestions);
             return (
@@ -48,7 +51,7 @@ export default function MainPage() {
                 className="rounded-xl border border-white/10 bg-[#1a1a1a] p-4 hover:border-white/20 hover:bg-white/4 transition-colors"
               >
                 <div className="text-white font-medium text-sm mb-1">
-                  {CATEGORY_LABELS[cat]}
+                  {catLabel(cat)}
                 </div>
                 <div className="text-xs text-white/35 mb-2.5">
                   {stats.known}/{stats.total} знаю
