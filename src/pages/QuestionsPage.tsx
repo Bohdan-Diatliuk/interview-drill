@@ -10,7 +10,7 @@ import { useQuestions } from '../hooks/useQuestions';
 type Mode = 'flashcard' | 'list';
 
 export default function QuestionsPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [category, setCategory] = useState<string>(() => searchParams.get('category') ?? 'all');
   const [difficulty, setDifficulty] = useState<Difficulty>('all');
@@ -30,7 +30,11 @@ export default function QuestionsPage() {
   const current = filtered[currentIndex];
   const stats = getStats(filtered);
 
-  const handleCategoryChange = (cat: string) => { setCategory(cat); setIndex(0); };
+  const handleCategoryChange = (cat: string) => {
+    setCategory(cat);
+    setIndex(0);
+    setSearchParams(cat === 'all' ? {} : { category: cat }, { replace: true });
+  };
   const handleDifficultyChange = (d: Difficulty) => { setDifficulty(d); setIndex(0); };
 
   return (

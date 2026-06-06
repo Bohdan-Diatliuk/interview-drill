@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Markdown } from './Markdown';
 import type { Questions } from '../data/types';
 import type { QuestionStatus } from '../hooks/useProgress';
 
@@ -96,7 +97,7 @@ export const FlashCard = ({
 
           <div className="flip-card-back rounded-2xl bg-[#1a1a1a] border border-amber-400/20 p-7 flex flex-col justify-center overflow-y-auto">
             {question.answer ? (
-              <p className="text-white/85 text-base leading-relaxed">{question.answer}</p>
+              <Markdown className="text-white/85 text-base overflow-y-auto">{question.answer}</Markdown>
             ) : (
               <p className="text-white/30 text-center italic text-sm">
                 Відповідь поки не додана

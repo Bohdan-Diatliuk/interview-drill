@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Markdown } from './Markdown';
 import type { Questions } from '../data/types';
 import type { QuestionStatus } from '../hooks/useProgress';
 
@@ -57,7 +58,7 @@ export const QuestionItem = ({ question, status, onKnown, onLearning }: Props) =
         <div className="px-4 pb-4 border-t border-white/10">
           <div className="pt-3 mb-4">
             {question.answer ? (
-              <p className="text-white/75 text-sm leading-relaxed">{question.answer}</p>
+              <Markdown className="text-white/75 text-sm">{question.answer}</Markdown>
             ) : (
               <p className="text-white/30 text-sm italic">Відповідь поки не додана</p>
             )}

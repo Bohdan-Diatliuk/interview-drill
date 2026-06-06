@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { CategoryTabs } from '../components/CategoryTabs';
+import { Markdown } from '../components/Markdown';
 import { useQuestions } from '../hooks/useQuestions';
 
 const DIFFICULTY_STYLES = {
@@ -51,7 +52,7 @@ export const TheoryPage = () => {
                 </div>
                 <div className="border-t border-white/6 pt-3">
                   {q.answer ? (
-                    <p className="text-white/70 text-sm leading-relaxed">{q.answer}</p>
+                    <Markdown className="text-white/70 text-sm">{q.answer}</Markdown>
                   ) : (
                     <p className="text-white/25 text-sm italic">Відповідь поки не додана</p>
                   )}
